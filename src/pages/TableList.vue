@@ -54,9 +54,11 @@
   </div>
 </template>
 <script>
+  import ExpensesDataService from "../services/expensesDataService";
   import LTable from 'src/components/Table.vue'
   import Card from 'src/components/Cards/Card.vue'
   const tableColumns = ['Id', 'Name', 'Salary', 'Country', 'City']
+  const tableColumns1 = [ 'id','createdAt', 'description', 'published', 'title', 'updatedAt']
   const tableData = [{
     id: 1,
     name: 'Dakota Rice',
@@ -100,7 +102,7 @@
     data () {
       return {
         table1: {
-          columns: [...tableColumns],
+          columns: [...tableColumns1],
           data: [...tableData]
         },
         table2: {
@@ -108,6 +110,52 @@
           data: [...tableData]
         }
       }
+    },
+    methods: {
+      retrieveTutorials() {
+        
+        ExpensesDataService.getAll()
+          .then(response => {
+            this.table1.data = response.data;
+            console.log(response.data);
+          })
+          .catch(e => {
+            console.log(e);
+          });
+      },
+      refreshList() {
+        this.retrieveTutorials();
+        this.currentTutorial = null;
+        this.currentIndex = -1;
+      },
+      setActiveTutorial(tutorial, index) {
+        this.currentTutorial = tutorial;
+        this.currentIndex = index;
+      },
+      removeAllTutorials() {
+        ExpensesDataService.deleteAll()
+          .then(response => {
+            console.log(response.data);
+            this.refreshList();
+          })
+          .catch(e => {
+            console.log(e);
+          });
+      },
+      
+      searchTitle() {
+        ExpensesDataService.findByTitle(this.title)
+          .then(response => {
+            this.tutorials = response.data;
+            console.log(response.data);
+          })
+          .catch(e => {
+            console.log(e);
+          });
+      }
+    },
+    mounted() {
+      this.retrieveTutorials();
     }
   }
 </script>
