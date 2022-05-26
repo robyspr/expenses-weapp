@@ -1,97 +1,56 @@
 <template>
   <card>
-    <h4 slot="header" class="card-title">Edit Profile</h4>
+    <h4 slot="header" class="card-title">New Expense</h4>
     <form>
+      <b-button v-b-toggle:my-collapse>
+        <span class="when-open">Ganancia</span><span class="when-closed">Gasto</span>
+      </b-button>
+
       <div class="row">
         <div class="col-md-5">
-          <base-input type="text"
-                    label="Company"
-                    :disabled="true"
-                    placeholder="Light dashboard"
-                    v-model="user.company">
+          <base-input type="number"
+                    label="Amount"
+                    placeholder="Add the expense's amount"
+                    v-model="expense.amount">
           </base-input>
         </div>
         <div class="col-md-3">
           <base-input type="text"
-                    label="Username"
-                    placeholder="Username"
-                    v-model="user.username">
+                    label="Detail"
+                    placeholder="What's the expense about?"
+                    v-model="expense.details">
           </base-input>
         </div>
         <div class="col-md-4">
-          <base-input type="email"
-                    label="Email"
-                    placeholder="Email"
-                    v-model="user.email">
+          <base-input type="date"
+                    label="Date"
+                    placeholder="date"
+                    v-model=expense.date>
           </base-input>
         </div>
       </div>
 
       <div class="row">
-        <div class="col-md-6">
-          <base-input type="text"
-                    label="First Name"
-                    placeholder="First Name"
-                    v-model="user.firstName">
-          </base-input>
-        </div>
-        <div class="col-md-6">
-          <base-input type="text"
-                    label="Last Name"
-                    placeholder="Last Name"
-                    v-model="user.lastName">
-          </base-input>
+        <div class="col-md-5">
+          <label for="mop">Method of Payment</label>
+          <b-form-select v-model="expense.selected" id="mop" :options="expense.options" value-field="value" text-field="text">
+          </b-form-select>
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-md-12">
-          <base-input type="text"
-                    label="Address"
-                    placeholder="Home Address"
-                    v-model="user.address">
-          </base-input>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-4">
-          <base-input type="text"
-                    label="City"
-                    placeholder="City"
-                    v-model="user.city">
-          </base-input>
-        </div>
-        <div class="col-md-4">
-          <base-input type="text"
-                    label="Country"
-                    placeholder="Country"
-                    v-model="user.country">
-          </base-input>
-        </div>
-        <div class="col-md-4">
-          <base-input type="number"
-                    label="Postal Code"
-                    placeholder="ZIP Code"
-                    v-model="user.postalCode">
-          </base-input>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-12">
-          <div class="form-group">
-            <label>About Me</label>
-            <textarea rows="5" class="form-control border-input"
-                      placeholder="Here can be your description"
-                      v-model="user.aboutMe">
-              </textarea>
+      <b-collapse visible id="my-collapse">
+        <div class="row">
+          <div class="col-md-6">
+            <label for="type">Type</label>
+            <b-form-select v-model="expense.selectedType" id="type" :options="expense.optionsType" value-field="value" text-field="text">
+            </b-form-select>
           </div>
         </div>
-      </div>
+      </b-collapse>
+
       <div class="text-center">
-        <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="updateProfile">
-          Update Profile
+        <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="uploadExpense">
+          Upload expense
         </button>
       </div>
       <div class="clearfix"></div>
@@ -107,23 +66,29 @@
     },
     data () {
       return {
-        user: {
-          company: 'Light dashboard',
-          username: 'michael23',
-          email: '',
-          firstName: 'Mike',
-          lastName: 'Andrew',
-          address: 'Melbourne, Australia',
-          city: 'melbourne',
-          country: 'Australia',
-          postalCode: '',
-          aboutMe: `Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.`
+        expense: {
+          amount: 0,
+          details: 'michael23',
+          date: new Date().toLocaleDateString('sv'),
+          selected: 'MP',
+          options: [
+            { text: 'Mercado Pago', value: 'MP' },
+            { text: 'Banco Macro', value: 'BM' },
+            { text: 'Banco BBVA', value: 'BB' },
+            { text: 'Efectivo', value: 'E' }
+          ],
+          selectedType: '1',
+          optionsType: [
+            { text: 'Food', value: '1' },
+            { text: 'Transportation', value: '2' },
+            { text: 'Uni', value: '3' }
+          ]
         }
       }
     },
     methods: {
-      updateProfile () {
-        alert('Your data: ' + JSON.stringify(this.user))
+      uploadExpense () {
+        alert('Your data: ' + JSON.stringify(this.expense))
       }
     }
   }
