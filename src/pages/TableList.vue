@@ -57,42 +57,14 @@
   import ExpensesDataService from "../services/expensesDataService";
   import LTable from 'src/components/Table.vue'
   import Card from 'src/components/Cards/Card.vue'
-  const tableColumns = ['Id', 'Name', 'Salary', 'Country', 'City']
-  const tableColumns1 = [ 'id','createdAt', 'description', 'published', 'title', 'updatedAt']
+  const tableColumns = [ 'id', 'amount', 'detail', 'Date', 'mop', 'type']
   const tableData = [{
     id: 1,
-    name: 'Dakota Rice',
-    salary: '$36.738',
-    country: 'Niger',
-    city: 'Oud-Turnhout'
-  },
-  {
-    id: 2,
-    name: 'Minerva Hooper',
-    salary: '$23,789',
-    country: 'Curaçao',
-    city: 'Sinaai-Waas'
-  },
-  {
-    id: 3,
-    name: 'Sage Rodriguez',
-    salary: '$56,142',
-    country: 'Netherlands',
-    city: 'Baileux'
-  },
-  {
-    id: 4,
-    name: 'Philip Chaney',
-    salary: '$38,735',
-    country: 'Korea, South',
-    city: 'Overland Park'
-  },
-  {
-    id: 5,
-    name: 'Doris Greene',
-    salary: '$63,542',
-    country: 'Malawi',
-    city: 'Feldkirchen in Kärnten'
+    amount: 10,
+    detail: '???',
+    date: new Date().toLocaleDateString('sv'),
+    mop: 'MP',
+    type: 12
   }]
   export default {
     components: {
@@ -102,7 +74,7 @@
     data () {
       return {
         table1: {
-          columns: [...tableColumns1],
+          columns: [...tableColumns],
           data: [...tableData]
         },
         table2: {
@@ -112,19 +84,19 @@
       }
     },
     methods: {
-      retrieveTutorials() {
+      retrieveExpenses() {
         
         ExpensesDataService.getAll()
           .then(response => {
             this.table1.data = response.data;
-            console.log(response.data);
+            console.log(response.data[0]);
           })
           .catch(e => {
             console.log(e);
           });
       },
       refreshList() {
-        this.retrieveTutorials();
+        this.retrieveExpenses();
         this.currentTutorial = null;
         this.currentIndex = -1;
       },
@@ -146,7 +118,7 @@
       searchTitle() {
         ExpensesDataService.findByTitle(this.title)
           .then(response => {
-            this.tutorials = response.data;
+            this.expenses = response.data;
             console.log(response.data);
           })
           .catch(e => {
@@ -155,7 +127,7 @@
       }
     },
     mounted() {
-      this.retrieveTutorials();
+      this.retrieveExpenses();
     }
   }
 </script>
