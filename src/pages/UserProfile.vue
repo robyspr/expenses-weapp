@@ -1,5 +1,8 @@
 <template>
   <div class="content">
+    <b-alert v-model="showDismissibleAlert" variant="success" dismissible>
+      Dismissible Alert!
+    </b-alert>
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-8">
@@ -19,9 +22,17 @@
   import UserCard from './UserProfile/UserCard.vue'
 
   export default {
+    created: function(){
+      this.$on('expenseUploaded', data => {this.showDismissibleAlert = data})
+    }, 
     components: {
       EditProfileForm,
       UserCard
+    },
+    data () { 
+      return {
+        showDismissibleAlert: false
+      }
     }
   }
 
