@@ -19,6 +19,7 @@ import App from './App.vue'
 
 // LightBootstrap plugin
 import LightBootstrap from './light-bootstrap-main'
+import { BootstrapVue, FormSelectPlugin, VBTogglePlugin } from 'bootstrap-vue'
 
 // router setup
 import routes from './routes/routes'
@@ -27,6 +28,9 @@ import './registerServiceWorker'
 // plugin setup
 Vue.use(VueRouter)
 Vue.use(LightBootstrap)
+Vue.use(FormSelectPlugin)
+Vue.use(VBTogglePlugin)
+Vue.use(BootstrapVue)
 
 // configure router
 const router = new VueRouter({
